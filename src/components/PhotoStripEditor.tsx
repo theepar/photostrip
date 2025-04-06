@@ -5,10 +5,9 @@ import stripToImage from "@/lib/stripToImage";
 type Props = {
   initialPhotos: File[];
   onBack: () => void;
-  userName?: string;
 };
 
-export default function PhotoStripEditor({ initialPhotos, onBack, userName }: Props) {
+export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
   const [photos, setPhotos] = useState<File[]>(initialPhotos);
   const [bgColor, setBgColor] = useState<string>("#ffffff");
   const [saving, setSaving] = useState(false);
@@ -63,7 +62,7 @@ export default function PhotoStripEditor({ initialPhotos, onBack, userName }: Pr
           <div key={index} className="relative w-[260px] rounded shadow">
             <img src={URL.createObjectURL(file)} alt={`Photo ${index + 1}`} draggable onDragStart={handleDragStart(index)} onDragOver={(e) => e.preventDefault()} onDrop={handleDrop(index)} className="w-[260px] rounded shadow object-cover" />
             <div className="absolute bottom-2 right-2 text-white text-xs font-bold bg-black bg-opacity-50 p-1 rounded" style={{ pointerEvents: "none" }}>
-              diana {/* Ubah teks watermark menjadi "diana" */}
+              diana
             </div>
             <button onClick={() => handleRemovePhoto(index)} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full">
               X

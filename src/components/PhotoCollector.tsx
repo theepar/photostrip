@@ -10,12 +10,11 @@ type Props = {
 export default function PhotoCollector({ onAddPhoto, photoCount, onComplete }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [userName, setUserName] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (photoCount >= 4) {
+    if (photoCount >= 3) {
       onComplete();
     }
   }, [photoCount, onComplete]);
@@ -44,13 +43,13 @@ export default function PhotoCollector({ onAddPhoto, photoCount, onComplete }: P
     context.drawImage(videoRef.current, 0, 0, 640, 480);
     canvasRef.current.toBlob((blob) => {
       if (blob) {
-        const file = new File([blob], `${userName ? `${userName}-` : ""}photo-${Date.now()}.png`, {
+        const file = new File([blob], `photo-${Date.now()}.png`, {
           type: "image/png",
         });
         onAddPhoto(file);
         setPreviewImage(URL.createObjectURL(file));
         setTimeout(() => {
-          setPreviewImage(null); // Hilangkan pratinjau setelah 3 detik
+          setPreviewImage(null);
         }, 3000);
       } else {
         setError("Gagal mengambil foto.");
@@ -63,13 +62,13 @@ export default function PhotoCollector({ onAddPhoto, photoCount, onComplete }: P
     setError(null);
     const file = e.target.files?.[0];
     if (file) {
-      const renamedFile = new File([file], `${userName ? `${userName}-` : ""}${file.name}`, {
+      const renamedFile = new File([file], file.name, {
         type: file.type,
       });
       onAddPhoto(renamedFile);
       setPreviewImage(URL.createObjectURL(renamedFile));
       setTimeout(() => {
-        setPreviewImage(null); // Hilangkan pratinjau setelah 3 detik
+        setPreviewImage(null);
       }, 3000);
     } else {
       setError("Tidak ada file yang dipilih.");
@@ -90,11 +89,11 @@ export default function PhotoCollector({ onAddPhoto, photoCount, onComplete }: P
       <canvas ref={canvasRef} width={640} height={480} className="hidden" />
 
       <button onClick={startCamera} className="bg-green-600 text-white px-4 py-2 rounded">
-         Aktifkan Kamera
+        Aktifkan Kamera
       </button>
 
       <button onClick={takePhoto} className="bg-blue-600 text-white px-4 py-2 rounded">
-         Ambil Foto
+        Ambil Foto
       </button>
 
       <label className="text-sm mt-2">atau upload foto:</label>
