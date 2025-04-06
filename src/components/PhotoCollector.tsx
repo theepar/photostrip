@@ -14,7 +14,7 @@ export default function PhotoCollector({ onAddPhoto, photoCount, onComplete }: P
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (photoCount >= 3) {
+    if (photoCount >= 4) {
       onComplete();
     }
   }, [photoCount, onComplete]);

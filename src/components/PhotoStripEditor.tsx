@@ -61,9 +61,6 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
         {photos.map((file, index) => (
           <div key={index} className="relative w-[260px] rounded shadow">
             <img src={URL.createObjectURL(file)} alt={`Photo ${index + 1}`} draggable onDragStart={handleDragStart(index)} onDragOver={(e) => e.preventDefault()} onDrop={handleDrop(index)} className="w-[260px] rounded shadow object-cover" />
-            <div className="absolute bottom-2 right-2 text-white text-xs font-bold bg-black bg-opacity-50 p-1 rounded" style={{ pointerEvents: "none" }}>
-              diana
-            </div>
             <button onClick={() => handleRemovePhoto(index)} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full">
               X
             </button>
