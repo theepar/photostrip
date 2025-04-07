@@ -12,6 +12,7 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
   const [bgColor, setBgColor] = useState<string>("#ffffff");
   const [saving, setSaving] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
+  const [frameSize, setFrameSize] = useState({ width: 260, height: 347 }); // Rasio 4:3
 
   const handleDragStart = (index: number) => (e: React.DragEvent) => {
     e.dataTransfer.setData("text/plain", index.toString());
@@ -48,6 +49,13 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
     setPhotos(updatedPhotos);
   };
 
+  const handleDownloadPhoto = (file: File, index: number) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(file);
+    a.download = `photo-${index + 1}.jpg`;
+    a.click();
+  };
+
   return (
     <div className="flex flex-col items-center gap-4 w-full max-w-md">
       <h2 className="text-2xl font-semibold">Edit Photo Strip</h2>
@@ -58,14 +66,29 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
       </div>
 
       <div ref={previewRef} className="w-[300px] min-h-[900px] bg-white border shadow-md relative p-2 flex flex-col items-center gap-2" style={{ backgroundColor: bgColor }}>
-        {photos.map((file, index) => (
-          <div key={index} className="relative w-[260px] rounded shadow">
-            <img src={URL.createObjectURL(file)} alt={`Photo ${index + 1}`} draggable onDragStart={handleDragStart(index)} onDragOver={(e) => e.preventDefault()} onDrop={handleDrop(index)} className="w-[260px] rounded shadow object-cover" />
-            <button onClick={() => handleRemovePhoto(index)} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full">
-              X
-            </button>
-          </div>
-        ))}
+        {photos.map((file, index) => {
+          const imgUrl = URL.createObjectURL(file);
+          return (
+            <div key={index} className="relative w-[260px] rounded shadow">
+              <div className="relative overflow-hidden" style={{ width: frameSize.width, height: frameSize.height }}>
+                <img
+                  src={imgUrl}
+                  alt={`Photo ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                />
+              </div>
+              <div className="absolute top-2 left-2 flex gap-2">
+                <button onClick={() => handleDownloadPhoto(file, index)} className="bg-blue-500 text-white px-2 py-1 rounded">
+                  Unduh
+                </button>
+                <button onClick={() => handleRemovePhoto(index)} className="bg-red-500 text-white px-2 py-1 rounded">
+                  X
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-col gap-2 w-full mt-4">
@@ -77,7 +100,7 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
         </button>
 
         <button onClick={onBack} className="text-gray-600 text-sm underline mt-2">
-           Kembali Ambil Foto
+          Kembali Ambil Foto
         </button>
       </div>
     </div>
