@@ -114,7 +114,7 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
                   alt={`Photo ${index + 1}`}
                   width={frameSize.width}
                   height={frameSize.height}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div className="absolute top-2 left-2 flex gap-2">
@@ -135,9 +135,8 @@ export default function PhotoStripEditor({ initialPhotos, onBack }: Props) {
           );
         })}
         <div className="text-center text-lg font-bold mt-4 text-black">
-  {name}
-</div>
-
+          {name}
+        </div>
       </div>
 
       <div className="flex flex-col gap-2 w-full mt-4">

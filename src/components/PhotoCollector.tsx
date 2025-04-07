@@ -221,7 +221,12 @@ export default function PhotoCollector({ onAddPhoto, onComplete }: Props) {
       </button>
 
       <label className="text-sm mt-2">atau upload foto:</label>
-      <input type="file" accept="image/*" onChange={handleFileUpload} />
+      <input
+        type="file"
+        accept="image/*"
+        capture={facingMode}
+        onChange={handleFileUpload}
+      />
 
       {showModal && previewImage && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">

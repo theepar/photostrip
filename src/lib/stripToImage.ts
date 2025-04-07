@@ -37,7 +37,8 @@ const stripToImage = async (
     ctx.fillStyle = "#000";
     ctx.font = "bold 20px Arial";
     ctx.textAlign = "center";
-    ctx.fillText(name, canvas.width / 2, canvas.height - 20);
+    ctx.textBaseline = "middle";
+    ctx.fillText(name, canvas.width / 2, canvas.height - nameHeight / 2 - 20);    
   }
 
   return canvas.toDataURL("image/jpeg", 0.95);
