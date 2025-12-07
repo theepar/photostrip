@@ -21,22 +21,25 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-3xl font-bold mb-4">Photobooth Strip</h1>
+    <main className="min-h-screen w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900 via-[#1e172a] to-black font-serif text-amber-100 overflow-x-hidden selection:bg-amber-500/30 selection:text-indigo-950">
 
-      {!showEditor && (
-        <PhotoCollector
-          onAddPhoto={handleAddPhoto}
-          onComplete={handleComplete}
-        />
-      )}
+      <div className="fixed inset-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-0"></div>
 
-      {showEditor && (
-        <PhotoStripEditor
-          initialPhotos={photos}
-          onBack={resetApp}
-        />
-      )}
+      <div className="relative z-10 w-full min-h-screen flex flex-col">
+        {!showEditor && (
+          <PhotoCollector
+            onAddPhoto={handleAddPhoto}
+            onComplete={handleComplete}
+          />
+        )}
+
+        {showEditor && (
+          <PhotoStripEditor
+            initialPhotos={photos}
+            onBack={resetApp}
+          />
+        )}
+      </div>
     </main>
   );
 }
